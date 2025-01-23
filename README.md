@@ -53,6 +53,16 @@ Bu repo, frontend geliştirici pozisyonları için kapsamlı teknik mülakat haz
 - RTK Query ve data fetching
 - Redux DevTools ve debugging
 
+#### [React Query Mülakat Soruları](./react-query-interview.md)
+
+- Server state yönetimi
+- Queries ve Mutations
+- Caching ve invalidation stratejileri
+- Infinite scroll ve pagination
+- Optimistic updates
+- Offline support ve error handling
+- DevTools ve debugging
+
 ## 🎯 Nasıl Kullanılır
 
 1. **Başlangıç Seviyesi İçin:**
@@ -89,6 +99,7 @@ Bu repo, frontend geliştirici pozisyonları için kapsamlı teknik mülakat haz
 
 ## 📝 Güncelleme Geçmişi
 
+- React Query dokümanı eklendi
 - Context API ve Redux dokümanları eklendi
 - Tüm dokümanlar Türkçe'ye çevrildi
 - Kod örnekleri ve açıklamalar güncellendi
