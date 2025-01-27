@@ -15,6 +15,26 @@ Bu repo, frontend geliştirici pozisyonları için kapsamlı teknik mülakat haz
 - Memory management ve performans
 - Web APIs ve Browser APIs
 
+#### [TypeScript Mülakat Soruları](./typescript-interview.md)
+
+- Type system ve type inference
+- Interfaces ve Type aliases
+- Generics ve Utility Types
+- Decorators ve metadata
+- Advanced types ve type manipulation
+- Configuration ve tooling
+
+#### [CSS Mülakat Soruları](./css-interview.md)
+
+- CSS fundamentals ve Box Model
+- Flexbox ve Grid sistemleri
+- Responsive design ve media queries
+- CSS preprocessors (SASS/LESS)
+- CSS-in-JS ve styling çözümleri
+- Modern CSS özellikleri
+
+### 🔷 Framework ve Libraries
+
 #### [React Mülakat Soruları](./react-interview.md)
 
 - Component yaşam döngüsü
@@ -63,24 +83,38 @@ Bu repo, frontend geliştirici pozisyonları için kapsamlı teknik mülakat haz
 - Offline support ve error handling
 - DevTools ve debugging
 
+### 🔷 Testing
+
+#### [Testing Mülakat Soruları](./testing-interview.md)
+
+- Jest ve React Testing Library
+- Unit ve Integration testing
+- E2E testing with Cypress
+- Test Driven Development (TDD)
+- Mock, Stub ve Spy kullanımı
+- Performance ve Load testing
+- Snapshot testing
+
 ## 🎯 Nasıl Kullanılır
 
 1. **Başlangıç Seviyesi İçin:**
 
-   - Önce JavaScript temellerini gözden geçirin
+   - JavaScript ve CSS temellerini gözden geçirin
    - React hooks ve component yapısını anlayın
    - Context API ile basit state yönetimini öğrenin
 
 2. **Orta Seviye İçin:**
 
-   - Next.js ve SSR/SSG kavramlarını çalışın
-   - Redux core konseptlerini ve Redux Toolkit'i öğrenin
-   - Performans optimizasyonu tekniklerini inceleyin
+   - TypeScript ve modern CSS özelliklerini çalışın
+   - Next.js ve SSR/SSG kavramlarını öğrenin
+   - Redux ve React Query ile state yönetimini inceleyin
+   - Temel testing pratiklerini uygulayın
 
 3. **İleri Seviye İçin:**
    - Tüm konuları derinlemesine inceleyin
-   - Kod örnekleri yazarak pratik yapın
-   - Edge case'leri ve best practice'leri öğrenin
+   - Performance optimizasyonu tekniklerini öğrenin
+   - İleri seviye testing stratejilerini uygulayın
+   - Modern tooling ve best practice'leri benimseyin
 
 ## 💡 Çalışma Önerileri
 
@@ -99,6 +133,8 @@ Bu repo, frontend geliştirici pozisyonları için kapsamlı teknik mülakat haz
 
 ## 📝 Güncelleme Geçmişi
 
+- Testing dokümanı eklendi
+- CSS ve TypeScript dokümanları eklendi
 - React Query dokümanı eklendi
 - Context API ve Redux dokümanları eklendi
 - Tüm dokümanlar Türkçe'ye çevrildi
