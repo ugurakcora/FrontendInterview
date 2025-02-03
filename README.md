@@ -44,6 +44,17 @@ Bu repo, frontend geliştirici pozisyonları için kapsamlı teknik mülakat haz
 - Error Boundaries
 - Server Components vs Client Components
 
+#### [Vue.js Mülakat Soruları](./vuejs-interview.md)
+
+- Vue instance ve lifecycle hooks
+- Composition API vs Options API
+- Directives ve Custom Directives
+- Vuex state management
+- Vue Router ve navigation guards
+- Performance optimizasyonu
+- Plugins ve Custom Plugins
+- Unit Testing
+
 #### [Next.js Mülakat Soruları](./nextjs-interview.md)
 
 - SSR, SSG, ISR kavramları
@@ -100,7 +111,7 @@ Bu repo, frontend geliştirici pozisyonları için kapsamlı teknik mülakat haz
 1. **Başlangıç Seviyesi İçin:**
 
    - JavaScript ve CSS temellerini gözden geçirin
-   - React hooks ve component yapısını anlayın
+   - React veya Vue.js temellerini öğrenin
    - Context API ile basit state yönetimini öğrenin
 
 2. **Orta Seviye İçin:**
@@ -133,6 +144,7 @@ Bu repo, frontend geliştirici pozisyonları için kapsamlı teknik mülakat haz
 
 ## 📝 Güncelleme Geçmişi
 
+- Vue.js dokümanı eklendi
 - Testing dokümanı eklendi
 - CSS ve TypeScript dokümanları eklendi
 - React Query dokümanı eklendi
