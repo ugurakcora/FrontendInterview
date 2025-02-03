@@ -64,6 +64,19 @@ Bu repo, frontend geliştirici pozisyonları için kapsamlı teknik mülakat haz
 - Optimizasyon teknikleri
 - Middleware kullanımı
 
+#### [React Native Mülakat Soruları](./react-native-interview.md)
+
+- Core Concepts ve Temel Bileşenler
+- Platform Spesifik Geliştirme
+- Navigation ve Routing
+- State Management
+- Native Modüller ve Bridge
+- Performance Optimizasyonu
+- Animasyonlar ve Gesture Handler
+- Testing ve Debugging
+- Security Best Practices
+- CI/CD ve Deployment
+
 ### 🔷 State Management
 
 #### [Context API Mülakat Soruları](./context-api-interview.md)
@@ -144,11 +157,15 @@ Bu repo, frontend geliştirici pozisyonları için kapsamlı teknik mülakat haz
 
 ## 📝 Güncelleme Geçmişi
 
-- Vue.js dokümanı eklendi
-- Testing dokümanı eklendi
-- CSS ve TypeScript dokümanları eklendi
-- React Query dokümanı eklendi
-- Context API ve Redux dokümanları eklendi
+- React Native mülakat soruları ve dokümanı eklendi
+- Vue.js mülakat soruları ve dokümanı eklendi
+- Testing mülakat soruları ve dokümanı eklendi
+- TypeScript mülakat soruları ve dokümanı eklendi
+- CSS mülakat soruları ve dokümanı eklendi
+- React Query mülakat soruları ve dokümanı eklendi
+- Context API ve Redux mülakat soruları eklendi
+- Next.js ve React mülakat soruları eklendi
+- JavaScript mülakat soruları eklendi
 - Tüm dokümanlar Türkçe'ye çevrildi
 - Kod örnekleri ve açıklamalar güncellendi
 
