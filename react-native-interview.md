@@ -644,4 +644,359 @@ jobs:
       run: cd android && ./gradlew assembleRelease
 ```
 
-Bu doküman, React Native'in temel ve ileri seviye konularını kapsamlı bir şekilde ele almaktadır. Her bölüm için pratik örnekler ve best practice'ler eklenmiştir.
+### 13. Push Notifications nasıl implemente edilir?
+
+**Cevap:**
+
+```javascript
+// Firebase Cloud Messaging (FCM) Kurulumu
+import messaging from "@react-native-firebase/messaging";
+
+// Token alma
+async function requestUserPermission() {
+  const authStatus = await messaging().requestPermission();
+  const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED;
+
+  if (enabled) {
+    const token = await messaging().getToken();
+    console.log("FCM Token:", token);
+  }
+}
+
+// Foreground mesajları dinleme
+useEffect(() => {
+  const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+    console.log("Foreground Message:", remoteMessage);
+    // Bildirim gösterme
+    PushNotification.localNotification({
+      title: remoteMessage.notification.title,
+      message: remoteMessage.notification.body,
+    });
+  });
+
+  return unsubscribe;
+}, []);
+
+// Background/Terminated state mesajları
+messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+  console.log("Background Message:", remoteMessage);
+});
+
+// Local Notifications
+import PushNotification from "react-native-push-notification";
+
+PushNotification.configure({
+  onNotification: function (notification) {
+    console.log("Notification:", notification);
+  },
+  permissions: {
+    alert: true,
+    badge: true,
+    sound: true,
+  },
+  popInitialNotification: true,
+});
+
+// Scheduled notification
+PushNotification.localNotificationSchedule({
+  title: "Hatırlatma",
+  message: "Bu bir planlanmış bildirimdir",
+  date: new Date(Date.now() + 60 * 1000), // 60 saniye sonra
+});
+```
+
+### 14. Deep Linking nasıl yapılandırılır?
+
+**Cevap:**
+
+```javascript
+// iOS (Info.plist)
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>myapp</string>
+    </array>
+  </dict>
+</array>
+
+// Android (AndroidManifest.xml)
+<activity>
+  <intent-filter>
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:scheme="myapp" />
+  </intent-filter>
+</activity>
+
+// React Navigation ile Deep Linking
+const linking = {
+  prefixes: ['myapp://', 'https://myapp.com'],
+
+  config: {
+    screens: {
+      Home: 'home',
+      Profile: {
+        path: 'user/:id',
+        parse: {
+          id: (id) => `${id}`,
+        },
+      },
+      Settings: 'settings',
+    },
+  },
+};
+
+// App.js
+<NavigationContainer linking={linking}>
+  {/* ... */}
+</NavigationContainer>
+
+// Deep Link'i dinleme
+import { Linking } from 'react-native';
+
+useEffect(() => {
+  const handleDeepLink = ({ url }) => {
+    console.log('Deep Link URL:', url);
+  };
+
+  // Initial URL'i al
+  Linking.getInitialURL().then(url => {
+    if (url) {
+      console.log('Initial URL:', url);
+    }
+  });
+
+  // URL değişikliklerini dinle
+  const subscription = Linking.addEventListener('url', handleDeepLink);
+  return () => subscription.remove();
+}, []);
+```
+
+### 15. Offline Storage ve Senkronizasyon
+
+**Cevap:**
+
+```javascript
+// AsyncStorage kullanımı
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// Veri kaydetme
+const storeData = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.error("Error storing data:", error);
+  }
+};
+
+// Veri okuma
+const getData = async (key) => {
+  try {
+    const value = await AsyncStorage.getItem(key);
+    return value != null ? JSON.parse(value) : null;
+  } catch (error) {
+    console.error("Error reading data:", error);
+    return null;
+  }
+};
+
+// Realm Database kullanımı
+import Realm from "realm";
+
+const TaskSchema = {
+  name: "Task",
+  properties: {
+    _id: "objectId",
+    title: "string",
+    completed: "bool",
+    createdAt: "date",
+  },
+  primaryKey: "_id",
+};
+
+// Realm instance oluşturma
+const realm = await Realm.open({
+  schema: [TaskSchema],
+});
+
+// Veri ekleme
+realm.write(() => {
+  realm.create("Task", {
+    _id: new Realm.BSON.ObjectId(),
+    title: "Yeni görev",
+    completed: false,
+    createdAt: new Date(),
+  });
+});
+
+// Offline-first senkronizasyon
+const syncQueue = [];
+
+function addToSyncQueue(operation) {
+  syncQueue.push(operation);
+  AsyncStorage.setItem("syncQueue", JSON.stringify(syncQueue));
+}
+
+async function processSyncQueue() {
+  if (!navigator.onLine) return;
+
+  const queue = JSON.parse(await AsyncStorage.getItem("syncQueue")) || [];
+
+  for (const operation of queue) {
+    try {
+      await api.sync(operation);
+      // Başarılı işlemi kuyruktan kaldır
+      const index = syncQueue.indexOf(operation);
+      syncQueue.splice(index, 1);
+    } catch (error) {
+      console.error("Sync error:", error);
+    }
+  }
+
+  AsyncStorage.setItem("syncQueue", JSON.stringify(syncQueue));
+}
+
+// Network durumunu dinleme
+NetInfo.addEventListener((state) => {
+  if (state.isConnected) {
+    processSyncQueue();
+  }
+});
+```
+
+### 16. App Performance Monitoring
+
+**Cevap:**
+
+```javascript
+// Firebase Performance Monitoring
+import perf from "@react-native-firebase/perf";
+
+// Custom trace oluşturma
+async function customTrace() {
+  // Trace başlat
+  const trace = await perf().startTrace("custom_trace");
+
+  // Metrik ekleme
+  trace.putMetric("items_loaded", 42);
+
+  // Attribute ekleme
+  trace.putAttribute("user_type", "premium");
+
+  // İşlem bitince trace'i durdur
+  await trace.stop();
+}
+
+// HTTP isteği izleme
+const metric = await perf().newHttpMetric("https://api.example.com", "GET");
+
+// İstek başlangıcı
+await metric.start();
+
+try {
+  await fetch("https://api.example.com");
+} finally {
+  // İstek bitişi
+  await metric.stop();
+}
+
+// Crashlytics entegrasyonu
+import crashlytics from "@react-native-firebase/crashlytics";
+
+// Hata loglama
+try {
+  // Riskli kod
+} catch (error) {
+  crashlytics().recordError(error);
+}
+
+// Kullanıcı bilgisi ekleme
+crashlytics().setUserId("123");
+crashlytics().setAttributes({
+  role: "admin",
+  email: "user@example.com",
+});
+
+// Custom log
+crashlytics().log("User completed onboarding");
+```
+
+### 17. Accessibility
+
+**Cevap:**
+
+```javascript
+// Temel accessibility özellikleri
+<View
+  accessible={true}
+  accessibilityLabel="Bu bir buton"
+  accessibilityHint="Ana sayfaya gider"
+  accessibilityRole="button"
+  accessibilityState={{ disabled: false }}
+>
+  <Text>Tıkla</Text>
+</View>;
+
+// Dinamik accessibility güncellemeleri
+const [count, setCount] = useState(0);
+
+<TouchableOpacity
+  accessible={true}
+  accessibilityLabel={`Sayaç: ${count}`}
+  accessibilityHint="Sayacı artırmak için çift tıklayın"
+  accessibilityActions={[
+    { name: "increment", label: "increment" },
+    { name: "decrement", label: "decrement" },
+  ]}
+  onAccessibilityAction={(event) => {
+    switch (event.nativeEvent.actionName) {
+      case "increment":
+        setCount((c) => c + 1);
+        break;
+      case "decrement":
+        setCount((c) => c - 1);
+        break;
+    }
+  }}
+>
+  <Text>{count}</Text>
+</TouchableOpacity>;
+
+// Announcements
+import { AccessibilityInfo } from "react-native";
+
+AccessibilityInfo.announceForAccessibility("İşlem başarıyla tamamlandı");
+
+// Screen reader kontrolü
+const [isScreenReaderEnabled, setIsScreenReaderEnabled] = useState(false);
+
+useEffect(() => {
+  AccessibilityInfo.isScreenReaderEnabled().then((screenReaderEnabled) => {
+    setIsScreenReaderEnabled(screenReaderEnabled);
+  });
+
+  const subscription = AccessibilityInfo.addEventListener(
+    "screenReaderChanged",
+    (screenReaderEnabled) => {
+      setIsScreenReaderEnabled(screenReaderEnabled);
+    }
+  );
+
+  return () => {
+    subscription.remove();
+  };
+}, []);
+```
+
+Bu yeni bölümler, React Native uygulamalarının önemli konularını kapsamaktadır:
+
+1. Push Notifications: FCM entegrasyonu ve yerel bildirimler
+2. Deep Linking: URL şemaları ve route yapılandırması
+3. Offline Storage: Veri depolama ve senkronizasyon stratejileri
+4. Performance Monitoring: Firebase Performance ve Crashlytics kullanımı
+5. Accessibility: Erişilebilirlik özellikleri ve screen reader desteği
+
+Her bölüm için pratik kod örnekleri ve best practice'ler eklenmiştir.

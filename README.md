@@ -76,6 +76,13 @@ Bu repo, frontend geliştirici pozisyonları için kapsamlı teknik mülakat haz
 - Testing ve Debugging
 - Security Best Practices
 - CI/CD ve Deployment
+- Push Notifications ve FCM Entegrasyonu
+- Deep Linking ve URL Şemaları
+- Offline Storage ve Senkronizasyon
+- App Performance Monitoring
+- Accessibility ve Screen Reader Desteği
+
+[Detaylı bilgi için tıklayınız](react-native-interview.md)
 
 ### 🔷 State Management
 
